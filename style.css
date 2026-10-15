@@ -69,7 +69,7 @@ li::marker { color: var(--dim); }
 .home a { text-decoration: none; }
 /* lines with no page yet stay dim until they have one */
 .home ol li:not(:has(a)) { color: var(--dim); }
-.home ol li.to-cut::marker { color: var(--mark); }
+.home ol li.to-cut::marker { color: var(--ink); }   /* black like the others; the strike-through stays red (user, 2026-10-15) */
 .home a:hover { color: inherit; }
 /* cut copy: the red strike-through, drawn on hover, focus or press */
 .to-cut a { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
@@ -80,6 +80,15 @@ li::marker { color: var(--dim); }
   text-decoration-thickness: .06em; text-underline-offset: .18em; }
 .home ol li.to-twh::marker { color: var(--ink); }
 .to-twh a:hover { text-decoration-thickness: .12em; }
+/* ...and hovering spins a zodiac wheel above the end of the line that lands on today's sign
+   (landing.js), with a star that twinkles; the link leads to today's horoscope */
+.to-twh a { position: relative; }
+.to-twh a::after { content: attr(data-sign) "\00a0\2726"; position: absolute; left: calc(100% + .2em); top: -.45em;
+  font: .62em/1 "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols", Spectral, serif; color: var(--ink);
+  white-space: nowrap; opacity: 0; transition: opacity .2s; pointer-events: none; text-decoration: none; }
+.to-twh a:hover::after, .to-twh a:focus-visible::after { opacity: 1; animation: twinkle 1.6s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+/* glyphs changing and a star dimming aren't motion, so these run with Reduce Motion on too */
 /* lists lists: a random lists lists typeface each visit (landing.js) */
 .to-lists a { text-decoration: underline dotted; text-decoration-thickness: .06em; text-underline-offset: .18em; }
 .to-lists a:hover { text-decoration-style: solid; }
@@ -102,6 +111,7 @@ li::marker { color: var(--dim); }
 .to-contact a::after { content: ""; position: absolute; left: calc(100% + .12em); top: .12em; bottom: .08em; width: .07em;
   background: currentColor; opacity: 0; }
 .to-contact a:hover::after, .to-contact a:focus-visible::after { animation: blink 1s steps(1) infinite; opacity: 1; }
+/* a caret blinks even with Reduce Motion on, like the system's own (user, 2026-10-15) */
 /* résumé: hovering straightens it into letterhead, small caps tracked out like the top of a résumé
    (plain text until the CV is approved, so the look is on its words) */
 .to-resume .t, .to-resume a { transition: letter-spacing .3s ease; }
@@ -112,7 +122,7 @@ li::marker { color: var(--dim); }
 .to-bios a { background: #f9fc7e; color: #333; padding: .02em .22em; margin: 0 -.22em;
   -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-color .2s, color .2s; }
 @media (prefers-reduced-motion: reduce) { .to-linkedin a, .to-bios a, .to-resume .t { transition: none; }
-  .to-contact a:hover::after { animation: none; } }
+}
 /* badvice: a new face each visit (landing.js); hovering swells it, the way badvice sets each piece
    as big as the window allows */
 .to-badvice a { display: inline-block; transform-origin: 0 60%; transition: transform .3s cubic-bezier(.2, .8, .2, 1.2); }

@@ -66,6 +66,34 @@ const isRed = h => {
   a.addEventListener("focus", roll);
 })();
 
+// Three-word horoscope: hovering spins the zodiac above the line, one sign after another, and it settles
+// on today's sun sign, since the link leads to today's horoscope (user, 2026-10-15).
+(() => {
+  "use strict";
+  const a = document.querySelector(".to-twh a");
+  if (!a) return;
+  const SIGNS = ["♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓"].map(g => g + "\uFE0E");
+  // the day each sign begins, in calendar order, with its index in SIGNS; before Jan 20 it's Capricorn
+  const BEGINS = [[120, 10], [219, 11], [321, 0], [420, 1], [521, 2], [621, 3], [723, 4], [823, 5], [923, 6],
+                  [1023, 7], [1122, 8], [1222, 9]];
+  const now = new Date(), md = (now.getMonth() + 1) * 100 + now.getDate();
+  let today = 9;
+  BEGINS.forEach(([day, i]) => { if (md >= day) today = i; });
+  const start = (today + 1) % 12;                  // one full turn, ending on today's sign
+  a.dataset.sign = SIGNS[today];
+  let timer = null;
+  const spin = () => {
+    clearInterval(timer);
+    let k = 0;
+    timer = setInterval(() => {
+      a.dataset.sign = SIGNS[(start + k) % 12];
+      if (++k > 11) clearInterval(timer);
+    }, 55);
+  };
+  a.addEventListener("pointerenter", spin);
+  a.addEventListener("focus", spin);
+})();
+
 // badvice: a new badvice face each visit (never the lists lists line's), like a piece of badvice;
 // the hover swell is in style.css (fonts from BADVICE_FONTS, written in by build.py).
 (() => {
