@@ -123,15 +123,16 @@ li::marker { color: var(--dim); }
   -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-color .2s, color .2s; }
 @media (prefers-reduced-motion: reduce) { .to-linkedin a, .to-bios a, .to-resume .t { transition: none; }
 }
-/* badvice: a new face each visit (landing.js); hovering swells it, the way badvice sets each piece
-   as big as the window allows */
-.to-badvice a { display: inline-block; transform-origin: 0 60%; transition: transform .3s cubic-bezier(.2, .8, .2, 1.2); }
-.to-badvice a:hover, .to-badvice a:focus-visible { transform: scale(1.3); }
+/* badvice: a new face each visit (landing.js) */
+/* badvice: hovering underlines the word and only the 🫵 grows (user, 2026-10-15) */
+.to-badvice a { text-decoration: none; }
+.to-badvice a:hover .word, .to-badvice a:focus-visible .word { text-decoration: underline; text-decoration-thickness: .06em;
+  text-underline-offset: .18em; }
 /* the 🫵: normal size until hover, then it grows and jabs at you (user, 2026-10-15) */
 .to-badvice .point { display: inline-block; line-height: 1; margin-left: .08em; transform-origin: 0 75%; }
 .to-badvice a:hover .point, .to-badvice a:focus-visible .point { animation: jab .5s cubic-bezier(.3, 1.6, .5, 1) 1 forwards; }
 @keyframes jab { 0% { transform: scale(1); } 40% { transform: scale(1.75) translateY(-.04em); } 100% { transform: scale(1.5); } }
-@media (prefers-reduced-motion: reduce) { .to-badvice a { transition: none; } .to-badvice a:hover .point { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .to-badvice a:hover .point { animation: none; transform: scale(1.5); } }
 /* social: Twitter, 2010. Its link blue and its type (user, 2026-10-15: Twitter's colour, not a random theme);
    hovering underlines it like old Twitter and counts it out of 140, like a tweet */
 .to-social a { font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Helvetica, Arial, sans-serif;
