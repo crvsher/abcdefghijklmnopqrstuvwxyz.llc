@@ -142,6 +142,10 @@ li::marker { color: var(--dim); }
 /* cut copy */
 .cut .intro em { font-style: italic; }
 /* the header is small and quiet so the line is front and center (user, 2026-10-14) */
+/* the heading, crossed out in the lines' red, a little heavier than a line's cut */
+.cut .cut-title { font-size: clamp(26px, 5vw, 44px); font-weight: 400; line-height: 1.1; margin: 0 0 .45em; }
+.cut .cut-title span { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
+  background-position: 0 56%; background-size: 100% .09em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .cut .intro { font-size: 12px; line-height: 1.5; color: var(--dim); margin: 0 0 1em; }
 .cut .intro p { margin: 0; }
 .cut .intro p + p { margin-top: .6em; }
