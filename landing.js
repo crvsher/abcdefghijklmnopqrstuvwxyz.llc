@@ -131,6 +131,28 @@ const isRed = h => {
   });
 })();
 
+// The business card's handwriting: every letter gets its own slight tilt, lift and size, new each visit,
+// so it reads like a hand rather than a font (user, 2026-10-15: "much messier").
+(() => {
+  "use strict";
+  const r = (lo, hi) => lo + Math.random() * (hi - lo);
+  document.querySelectorAll(".card .pen").forEach(pen => {
+    const text = pen.textContent;
+    pen.setAttribute("aria-label", text);
+    pen.textContent = "";
+    [...text].forEach(c => {
+      const s = document.createElement("span");
+      s.className = "ch";
+      s.setAttribute("aria-hidden", "true");
+      s.textContent = c;
+      if (c.trim()) s.style.transform = `translateY(${r(-.09, .07).toFixed(3)}em) rotate(${r(-7, 6).toFixed(1)}deg) ` +
+                                        `scale(${r(.9, 1.1).toFixed(3)})`;
+      else s.style.width = r(.22, .4).toFixed(2) + "em";   // uneven word spacing
+      pen.appendChild(s);
+    });
+  });
+})();
+
 // The business card's blanks stretch to fit what's typed into them, like writing past the line, and a
 // long line (an answer, or the title in the profession blank) shrinks rather than running off the card. Widths are in em, so they shrink too.
 (() => {
