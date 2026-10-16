@@ -77,10 +77,11 @@ li::marker { color: var(--dim); }
   background-position: 0 58%; background-size: 100% .08em; transition: color .3s ease; }
 .home .to-cut a:hover, .to-cut a:focus-visible, .to-cut a:active { color: transparent; }
 /* three-word horoscope: the Substack's Spectral, in ink; only cut copy keeps red on this page (user, 2026-10-15) */
-.to-twh a { font-family: Spectral, Georgia, serif; text-decoration: underline; text-decoration-color: var(--ink);
+/* no underlines at rest anywhere in the list; lines that use one show it on hover (user, 2026-10-15) */
+.to-twh a { font-family: Spectral, Georgia, serif; text-decoration: none; text-decoration-color: var(--ink);
   text-decoration-thickness: .06em; text-underline-offset: .18em; }
 .home ol li.to-twh::marker { color: var(--ink); }
-.to-twh a:hover { text-decoration-thickness: .12em; }
+.home .to-twh a:hover, .to-twh a:focus-visible { text-decoration: underline; }
 /* ...and hovering spins a zodiac wheel above the end of the line that lands on today's sign
    (landing.js), with a star that twinkles; the link leads to today's horoscope */
 .to-twh a { position: relative; }
@@ -91,8 +92,8 @@ li::marker { color: var(--dim); }
 @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
 /* glyphs changing and a star dimming aren't motion, so these run with Reduce Motion on too */
 /* lists lists: a random lists lists typeface each visit (landing.js) */
-.to-lists a { text-decoration: underline dotted; text-decoration-thickness: .06em; text-underline-offset: .18em; }
-.to-lists a:hover { text-decoration-style: solid; }
+.to-lists a { text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em; }
+.home .to-lists a:hover, .to-lists a:focus-visible { text-decoration: underline; }
 /* ...and opens into three subtasks of itself (landing.js) */
 .to-lists .subs { list-style: "◦  " inside; font-size: .62em; margin: 0; padding-left: .6em;
   display: grid; grid-template-rows: repeat(3, 0fr); opacity: 0; transition: grid-template-rows .3s ease, opacity .25s; }
@@ -103,12 +104,13 @@ li::marker { color: var(--dim); }
 @media (prefers-reduced-motion: reduce) { .to-lists .subs { transition: none; } }
 /* linkedin: LinkedIn's blue and sans; hovering turns it into one of LinkedIn's blue pill buttons */
 .to-linkedin a { font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; color: var(--ink);   /* ink until hover (user, 2026-10-15) */
-  text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .18em;
+  text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em;
   border-radius: 999px; padding: .04em .5em; margin: -.04em -.5em; transition: background-color .2s, color .2s; }
 .home .to-linkedin a:hover, .to-linkedin a:focus-visible { background: #0a66c2; color: #fff; text-decoration: none; }
 /* contact: a plain link; the address is put together only when it's used (landing.js). Hovering starts a
    message: a caret blinks after it, as if the email's being written */
-.to-contact a { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .18em; position: relative; }
+.to-contact a { text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em; position: relative; }
+.home .to-contact a:hover, .to-contact a:focus-visible { text-decoration: underline; }
 .to-contact a::after { content: ""; position: absolute; left: calc(100% + .12em); top: .12em; bottom: .08em; width: .07em;
   background: currentColor; opacity: 0; }
 .to-contact a:hover::after, .to-contact a:focus-visible::after { animation: blink 1s steps(1) infinite; opacity: 1; }
