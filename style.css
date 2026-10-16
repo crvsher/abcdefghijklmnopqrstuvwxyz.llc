@@ -112,11 +112,16 @@ li::marker { color: var(--dim); }
   background: currentColor; opacity: 0; }
 .to-contact a:hover::after, .to-contact a:focus-visible::after { animation: blink 1s steps(1) infinite; opacity: 1; }
 /* a caret blinks even with Reduce Motion on, like the system's own (user, 2026-10-15) */
-/* résumé: hovering straightens it into letterhead, small caps tracked out like the top of a résumé
-   (plain text until the CV is approved, so the look is on its words) */
-.to-resume .t, .to-resume a { transition: letter-spacing .3s ease; }
-.to-resume:hover .t, .to-resume:focus-within .t, .to-resume a:hover, .to-resume a:focus-visible { font-variant: small-caps; letter-spacing: .14em;
-  font-family: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif; }
+/* résumé: hovering straightens it into letterhead, small caps tracked out like the top of a résumé,
+   and the 👕 after it turns into a 👔 (user, 2026-10-15). The hover belongs to the whole row: the word
+   changes width as it changes face, and hovering the word itself made it flicker in and out under the pointer */
+.to-resume .t, .to-resume .word { transition: letter-spacing .3s ease; }
+.to-resume:hover .t, .to-resume:focus-within .t, .to-resume:hover .word, .to-resume:focus-within .word {
+  font-variant: small-caps; letter-spacing: .14em; font-family: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif; }
+.to-resume a { text-decoration: none; }
+.to-resume .shirt { display: inline-block; margin-left: .3em; letter-spacing: 0; font-variant: normal; }
+.to-resume .shirt .on, .to-resume:hover .shirt .off, .to-resume:focus-within .shirt .off { display: none; }
+.to-resume:hover .shirt .on, .to-resume:focus-within .shirt .on { display: inline; }
 /* about Simon (Too Many Bios): a swatch of a bio's paper and ink, new each visit, and a new one on every
    hover, like tapping for the next bio (landing.js); the old Tumblr's yellow highlight until then */
 .to-bios a { background: #f9fc7e; color: #333; padding: .02em .22em; margin: 0 -.22em;
