@@ -245,11 +245,14 @@ li::marker { color: var(--dim); }
   font: 700 .49em/1 "Courier Prime", "Courier New", monospace; letter-spacing: .12em; text-transform: uppercase; color: #111; }
 /* the handwriting: a quick ballpoint scrawl (Nothing You Could Do), leaning a little uphill; landing.js
    gives every letter its own tilt, lift and size so no two strokes match (user, 2026-10-15: "much messier") */
-/* the ink: Bic Cristal blue, like the pen on a desk (user, 2026-10-15) */
-.card { --bic: #1f3d9c; }
+/* the ink: black for everything a visitor writes; only the user's own handwriting (the photo) is Bic Cristal
+   blue (user, 2026-10-15) */
+.card { --bic: #111; }
 .card .pen { font: 1.3em/1 "Nothing You Could Do", "Bradley Hand", cursive; color: var(--bic); position: relative; top: -.14em;
   display: inline-block; transform: rotate(-3deg); transform-origin: 0 100%; white-space: nowrap; }
 .card .pen .ch { display: inline-block; }
+/* the user's own handwriting, photographed and lifted off the paper (build.py handwriting()) */
+.card .hand { height: 2.25em; width: auto; vertical-align: -.72em; margin: 0 .05em; position: relative; top: -.12em; }
 .card input { font: 1.2em/1 "Nothing You Could Do", "Bradley Hand", cursive; color: var(--bic); background: none; border: 0;
   transform: rotate(-2.5deg);
   width: 100%; min-width: 0; padding: 0 0 .4cqw; text-align: center; outline: none; caret-color: var(--bic); }
