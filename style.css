@@ -71,10 +71,11 @@ li::marker { color: var(--dim); }
 .home ol li:not(:has(a)) { color: var(--dim); }
 .home ol li.to-cut::marker { color: var(--ink); }   /* black like the others; the strike-through stays red (user, 2026-10-15) */
 .home a:hover { color: inherit; }
-/* cut copy: the red strike-through, drawn on hover, focus or press */
+/* cut copy: already crossed out in red; on hover, focus or press the words disappear and only the red
+   line is left where they were. The link stays put and clickable (user, 2026-10-15) */
 .to-cut a { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
-  background-position: 0 58%; background-size: 0% .08em; transition: background-size .35s ease-in; }
-.to-cut a:hover, .to-cut a:focus-visible, .to-cut a:active { background-size: 100% .08em; }
+  background-position: 0 58%; background-size: 100% .08em; transition: color .3s ease; }
+.home .to-cut a:hover, .to-cut a:focus-visible, .to-cut a:active { color: transparent; }
 /* three-word horoscope: the Substack's Spectral, in ink; only cut copy keeps red on this page (user, 2026-10-15) */
 .to-twh a { font-family: Spectral, Georgia, serif; text-decoration: underline; text-decoration-color: var(--ink);
   text-decoration-thickness: .06em; text-underline-offset: .18em; }
@@ -147,7 +148,7 @@ li::marker { color: var(--dim); }
   position: absolute; left: calc(100% + .25em); top: -.35em; white-space: nowrap;   /* above the line: takes no room */
   opacity: 0; transition: opacity .2s; pointer-events: none; }
 .to-social a:hover::after, .to-social a:focus-visible::after { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .to-cut a { transition: none; } }
+
 
 /* cut copy */
 .cut .intro em { font-style: italic; }
@@ -215,14 +216,27 @@ li::marker { color: var(--dim); }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* the first business card, a mad lib, as the landing header (user's design, 2026-10-15): 3.5 × 2 in, type scaled to the card */
 .card { container-type: inline-size; box-sizing: border-box; width: min(100%, 30rem); aspect-ratio: 3.5 / 2;
-  margin: 0 0 3.2rem; padding: 0; display: flex; flex-direction: column; justify-content: center;
+  margin: 0 0 3.2rem; padding: 0; position: relative; perspective: 1400px; cursor: pointer; }
+/* two sides that turn over in 3D when the card is clicked (landing.js); the back holds the address */
+.card .flip { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3, .7, .2, 1); }
+.card.flipped .flip { transform: rotateY(180deg); }
+.card .side { position: absolute; inset: 0; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
   background: #fff; color: #111; border: 1px solid #d9d6cf; border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px -12px rgba(0,0,0,.18);
   font-family: "Times New Roman", Times, "Liberation Serif", serif; }
+.card .back { transform: rotateY(180deg); pointer-events: none; }
+.card.flipped .back { pointer-events: auto; } .card.flipped .front { pointer-events: none; }
+.card .back .face { text-align: center; }
+.card .back .lic { margin-bottom: 7cqw; }
+.card .front .l2 { margin-bottom: 0; }
+.card .turn:focus-visible { position: absolute; width: auto; height: auto; clip: auto; margin: 0; right: 8px; bottom: -2rem;
+  font: 12px var(--font); }
+@media (prefers-reduced-motion: reduce) { .card .flip { transition-duration: .01s; } }
 .card .face { padding: 0 7cqw; }   /* padding inside, so cqw is always the whole card */
 .card p { margin: 0; line-height: 1; font-size: 5.3cqw; white-space: nowrap; }
 .card .l1 { margin-bottom: 11.5cqw; }
-.card .l2 { margin-bottom: 12cqw; }
+.card .l2 { margin-bottom: 12cqw; }   /* (front: 0, now that the address is on the back) */
 .card .blank { position: relative; display: inline-block; min-width: 2.1em; border-bottom: .3cqw solid #111;
   text-align: center; margin: 0 .5cqw; vertical-align: baseline; }
 .card .blank.filled { min-width: 4.3em; }

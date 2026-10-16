@@ -131,6 +131,25 @@ const isRed = h => {
   });
 })();
 
+// The business card turns over when it's clicked (not when a blank is being filled in), showing the address on
+// the back; click again to turn it back. A hidden button does the same for the keyboard (user, 2026-10-15).
+(() => {
+  "use strict";
+  const card = document.querySelector(".card");
+  if (!card) return;
+  const front = card.querySelector(".front"), back = card.querySelector(".back");
+  const turn = () => {
+    const flipped = card.classList.toggle("flipped");
+    front.setAttribute("aria-hidden", String(flipped));
+    back.setAttribute("aria-hidden", String(!flipped));
+  };
+  card.addEventListener("click", e => {
+    if (e.target.closest("input, label, a, .turn")) return;
+    turn();
+  });
+  card.querySelector(".turn").addEventListener("click", turn);
+})();
+
 // The business card's handwriting: every letter gets its own slight tilt, lift and size, new each visit,
 // so it reads like a hand rather than a font (user, 2026-10-15: "much messier").
 (() => {
