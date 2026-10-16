@@ -122,6 +122,8 @@ li::marker { color: var(--dim); }
 .to-resume:hover .t, .to-resume:focus-within .t, .to-resume:hover .word, .to-resume:focus-within .word {
   font-variant: small-caps; letter-spacing: .14em; font-family: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif; }
 .to-resume a { text-decoration: none; }
+.to-resume:hover .word, .to-resume:focus-within .word { text-decoration: underline; text-decoration-thickness: .06em;
+  text-underline-offset: .18em; }   /* underline on hover too (user, 2026-10-15) */
 .to-resume .shirt { display: inline-block; margin-left: .3em; letter-spacing: 0; font-variant: normal; }
 .to-resume .shirt .on, .to-resume:hover .shirt .off, .to-resume:focus-within .shirt .off { display: none; }
 .to-resume:hover .shirt .on, .to-resume:focus-within .shirt .on { display: inline; }
