@@ -245,12 +245,14 @@ li::marker { color: var(--dim); }
   font: 700 .49em/1 "Courier Prime", "Courier New", monospace; letter-spacing: .12em; text-transform: uppercase; color: #111; }
 /* the handwriting: a quick ballpoint scrawl (Nothing You Could Do), leaning a little uphill; landing.js
    gives every letter its own tilt, lift and size so no two strokes match (user, 2026-10-15: "much messier") */
-.card .pen { font: 1.3em/1 "Nothing You Could Do", "Bradley Hand", cursive; color: #1c2030; position: relative; top: -.14em;
+/* the ink: Bic Cristal blue, like the pen on a desk (user, 2026-10-15) */
+.card { --bic: #1f3d9c; }
+.card .pen { font: 1.3em/1 "Nothing You Could Do", "Bradley Hand", cursive; color: var(--bic); position: relative; top: -.14em;
   display: inline-block; transform: rotate(-3deg); transform-origin: 0 100%; white-space: nowrap; }
 .card .pen .ch { display: inline-block; }
-.card input { font: 1.2em/1 "Nothing You Could Do", "Bradley Hand", cursive; color: #1c2030; background: none; border: 0;
+.card input { font: 1.2em/1 "Nothing You Could Do", "Bradley Hand", cursive; color: var(--bic); background: none; border: 0;
   transform: rotate(-2.5deg);
-  width: 100%; min-width: 0; padding: 0 0 .4cqw; text-align: center; outline: none; caret-color: #111; }
+  width: 100%; min-width: 0; padding: 0 0 .4cqw; text-align: center; outline: none; caret-color: var(--bic); }
 .card .blank:focus-within { border-bottom-color: #111; background: rgba(0,0,0,.035); }
 .card .blank input { width: 1.6em; } .card .blank.wide input { width: 2.9em; }
 .card .url { font: 700 3.3cqw/1 "Courier Prime", "Courier New", monospace; letter-spacing: .1em; text-align: center; }
