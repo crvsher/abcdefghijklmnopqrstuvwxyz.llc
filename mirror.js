@@ -33,7 +33,18 @@
     };
   }
 
+  // On a flipped side, the address written on the page is the mirror's own, set down backwards so that the reflection
+  // reads it the right way round: zyxwvutsrqponmlkjihgfedcba.llc (user, 2026-10-19).
+  const flipped = window.name === "mirror" || (pair && pair[1] === "glass");
+  const ADDRESS = "abcdefghijklmnopqrstuvwxyz.llc";
+  const REFLECTED = [..."zyxwvutsrqponmlkjihgfedcba.llc"].reverse().join("");
+  const address = () => {
+    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n; (n = walk.nextNode());) if (n.nodeValue.includes(ADDRESS)) n.nodeValue = n.nodeValue.split(ADDRESS).join(REFLECTED);
+  };
+
   const links = () => {
+    if (flipped) address();
     document.querySelectorAll("a.to-mirror").forEach(a => { a.href = HOME; a.target = "_top"; });
     document.querySelectorAll("a[href]:not(.to-mirror)").forEach(a => {
       let u;
