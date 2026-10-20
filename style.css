@@ -269,5 +269,6 @@ li::marker { color: var(--dim); }
 
 /* the mirror link: small and quiet at the foot of the landing page (user, 2026-10-19) */
 .home .mirror { margin: 3.5rem 0 0; font-size: 12px; }
-.home .mirror a { color: var(--dim); }
+/* the word is written in mirror writing; in the mirror it's flipped again and reads the right way (user, 2026-10-19) */
+.home .mirror a { color: var(--dim); display: inline-block; transform: scaleX(-1); }
 .home .mirror a:hover { color: var(--ink); text-decoration: underline; }
