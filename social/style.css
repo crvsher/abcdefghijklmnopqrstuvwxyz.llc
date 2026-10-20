@@ -33,8 +33,3 @@ li p { margin: 0; overflow-wrap: break-word; }
   li { padding: 16px 16px 12px; } header { padding: 14px 16px 6px; } #panel > footer { padding: 14px 16px 24px; }
   }
 
-/* the addresses: stacked until there's room for one line, then the site on the left, the mirror on the right (user, 2026-10-19) */
-@media (min-width: 560px) {
-  .addrs { display: flex; justify-content: space-between; gap: 0 24px; }
-  .addrs br { display: none; }
-}
