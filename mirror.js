@@ -34,10 +34,10 @@
   }
 
   // Each side keeps its own browser storage (badvice and Too Many Bios remember what's been shown), or the side that
-  // loads second would skip what the first just showed. Doing the same things, the two keep the same memories.
+  // loads second would skip what the first just showed. Doing the same things from the same start, the two keep the same memories.
   if (pair) {
     try {
-      const real = window.localStorage, pre = "mirror-" + pair[1] + ":";
+      const real = window.localStorage, pre = "mirror-" + pair[1] + ":" + pair[2] + ":";   // this visit only, so both start alike
       const own = {
         getItem: k => real.getItem(pre + k),
         setItem: (k, v) => real.setItem(pre + k, v),
