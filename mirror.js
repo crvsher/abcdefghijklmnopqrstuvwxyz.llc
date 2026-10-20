@@ -5,7 +5,8 @@
 //   "mirror-plain:N"  zyxwvutsrqponmlkjihgfedcbabcdefghijklmnopqrstuvw.xyz, right half: the site as it is
 //   "mirror-glass:N"  the same, left half: flipped
 // In any mirror, links to the user's own sites stay inside the frame; links to sites that refuse to be framed
-// (LinkedIn, Substack, X…) leave it in the same tab; the three addresses at the foot of each page lead out.
+// (LinkedIn, Substack, X…) leave it in the same tab; the addresses at the foot of each page, and the landing's
+// "mirror", lead out.
 // In the pair, the two halves keep together: N seeds Math.random (with the page's path), so both halves roll the
 // same fonts, colors and lines; each click on one side is replayed on the other; scrolling and the pointer are
 // passed across; and whichever page one side goes to, the other follows.
@@ -70,7 +71,12 @@
   const links = () => {
     if (flipped) address();
     document.querySelectorAll("a.addr").forEach(a => { a.target = "_top"; });
-    document.querySelectorAll("a[href]:not(.addr)").forEach(a => {
+    // the landing's "mirror": from a flipped side it leads back out to the site as it is
+    document.querySelectorAll("a.to-mirror:not(.addr)").forEach(a => {
+      if (flipped) a.href = "https://" + ADDRESS + "/";
+      a.target = "_top";
+    });
+    document.querySelectorAll("a[href]:not(.addr):not(.to-mirror)").forEach(a => {
       let u;
       try { u = new URL(a.getAttribute("href"), location.href); } catch (e) { return; }
       if (!/^https?:$/.test(u.protocol)) return;                     // mailto and friends: leave alone
