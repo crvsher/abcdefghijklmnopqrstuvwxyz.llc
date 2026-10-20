@@ -57,8 +57,9 @@ const isRed = h => {
   const roll = () => {                                         // never the same pair twice in a row
     let i; do { i = Math.floor(Math.random() * papers.length); } while (papers.length > 1 && i === now);
     now = i;
-    a.style.background = papers[i][0];
-    a.style.color = papers[i][1];
+    const w = a.querySelector(".word") || a;                  // the swatch is behind the words, not the 🪪
+    w.style.background = papers[i][0];
+    w.style.color = papers[i][1];
   };
   roll();
   // a new paper and ink on every hover, like tapping for the next bio
@@ -116,7 +117,7 @@ const isRed = h => {
 (() => {
   "use strict";
   const a = document.querySelector(".to-social a");
-  if (a) a.dataset.count = [...a.textContent.trim()].length;
+  if (a) a.dataset.count = [...(a.querySelector(".word") || a).textContent.trim()].length;
 })();
 
 // Contact: the address is stored reversed and base64'd in two halves, and only becomes a

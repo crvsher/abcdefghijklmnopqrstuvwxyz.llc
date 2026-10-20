@@ -57,7 +57,9 @@ li::marker { color: var(--dim); }
 
 /* landing: your list, each line set like the page it leads to */
 .home main { padding-top: 10vh; }
-.home ol { font-size: clamp(20px, 4.2vw, 30px); line-height: 1.3; padding-left: 2em; }
+.home ol { font-size: clamp(20px, 4.2vw, 30px); line-height: 1.3; padding-left: 0; list-style: none; }   /* no numbers (user, 2026-10-19) */
+/* each line's emoji: an inline-block, so its line's underline or strike-through passes it by */
+.home .emo { display: inline-block; margin-left: .3em; text-decoration: none; }
 .home ol li { margin-bottom: .9em; }
 .home ol li::marker { font-size: .6em; color: var(--dim); }
 /* subheads: the note's bracketed asides on their own line under each link. Every hover look draws over
@@ -73,9 +75,9 @@ li::marker { color: var(--dim); }
 .home a:hover { color: inherit; }
 /* cut copy: already crossed out in red; on hover, focus or press the words disappear and only the red
    line is left where they were. The link stays put and clickable (user, 2026-10-15) */
-.to-cut a { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
+.to-cut a .word { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
   background-position: 0 58%; background-size: 100% .08em; transition: color .3s ease; }
-.home .to-cut a:hover, .to-cut a:focus-visible, .to-cut a:active { color: transparent; }
+.home .to-cut a:hover .word, .to-cut a:focus-visible .word, .to-cut a:active .word { color: transparent; }
 /* three-word horoscope: the Substack's Spectral, in ink; only cut copy keeps red on this page (user, 2026-10-15) */
 /* no underlines at rest anywhere in the list; lines that use one show it on hover (user, 2026-10-15) */
 .to-twh a { font-family: Spectral, Georgia, serif; text-decoration: none; text-decoration-color: var(--ink);
@@ -111,9 +113,10 @@ li::marker { color: var(--dim); }
    message: a caret blinks after it, as if the email's being written */
 .to-contact a { text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em; position: relative; }
 .home .to-contact a:hover, .to-contact a:focus-visible { text-decoration: underline; }
-.to-contact a::after { content: ""; position: absolute; left: calc(100% + .12em); top: .12em; bottom: .08em; width: .07em;
+.to-contact .word { position: relative; }
+.to-contact .word::after { content: ""; position: absolute; left: calc(100% + .12em); top: .12em; bottom: .08em; width: .07em;
   background: currentColor; opacity: 0; }
-.to-contact a:hover::after, .to-contact a:focus-visible::after { animation: blink 1s steps(1) infinite; opacity: 1; }
+.to-contact a:hover .word::after, .to-contact a:focus-visible .word::after { animation: blink 1s steps(1) infinite; opacity: 1; }
 /* a caret blinks even with Reduce Motion on, like the system's own (user, 2026-10-15) */
 /* résumé: hovering straightens it into letterhead, small caps tracked out like the top of a résumé,
    and the 👕 after it turns into a 👔 (user, 2026-10-15). The hover belongs to the whole row: the word
@@ -129,9 +132,9 @@ li::marker { color: var(--dim); }
 .to-resume:hover .shirt .on, .to-resume:focus-within .shirt .on { display: inline; }
 /* about Simon (Too Many Bios): a swatch of a bio's paper and ink, new each visit, and a new one on every
    hover, like tapping for the next bio (landing.js); the old Tumblr's yellow highlight until then */
-.to-bios a { background: #f9fc7e; color: #333; padding: .02em .22em; margin: 0 -.22em;
+.to-bios a .word { background: #f9fc7e; color: #333; padding: .02em .22em; margin: 0 -.22em;
   -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-color .2s, color .2s; }
-@media (prefers-reduced-motion: reduce) { .to-linkedin a, .to-bios a, .to-resume .t { transition: none; }
+@media (prefers-reduced-motion: reduce) { .to-linkedin a, .to-bios a .word, .to-resume .t { transition: none; }
 }
 /* badvice: a new face each visit (landing.js) */
 /* badvice: hovering underlines the word and only the 🫵 grows (user, 2026-10-15) */
@@ -270,6 +273,5 @@ li::marker { color: var(--dim); }
 /* the mirror link: small and quiet at the foot of the landing page (user, 2026-10-19) */
 
 
-/* the landing's only footer: "mirror", in mirror writing (user, 2026-10-19) */
+/* the landing's only footer: "mirror", reading straight here and reversed in the mirror (user, 2026-10-19) */
 footer.landing.mirror { margin-top: 3.5rem; font-size: 12px; }
-footer.landing.mirror a { display: inline-block; transform: scaleX(-1); }
