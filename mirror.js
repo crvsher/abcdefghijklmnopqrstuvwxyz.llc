@@ -5,14 +5,12 @@
 //   "mirror-plain:N"  zyxwvutsrqponmlkjihgfedcbabcdefghijklmnopqrstuvw.xyz, right half: the site as it is
 //   "mirror-glass:N"  the same, left half: flipped
 // In any mirror, links to the user's own sites stay inside the frame; links to sites that refuse to be framed
-// (LinkedIn, Substack, X…) leave it in the same tab; the "mirror" link at the foot of the landing page leads out
-// to the unflipped site.
+// (LinkedIn, Substack, X…) leave it in the same tab; the three addresses at the foot of each page lead out.
 // In the pair, the two halves keep together: N seeds Math.random (with the page's path), so both halves roll the
 // same fonts, colors and lines; each click on one side is replayed on the other; scrolling and the pointer are
 // passed across; and whichever page one side goes to, the other follows.
 (() => {
   "use strict";
-  const HOME = "https://abcdefghijklmnopqrstuvwxyz.llc/";
   const FRAMEABLE = ["abcdefghijklmnopqrstuvwxyz.llc", "badvice.fyi", "listslists.xyz", "toomanybios.com"];
   const PAIR = ["https://zyxwvutsrqponmlkjihgfedcbabcdefghijklmnopqrstuvw.xyz"];
   if (!/^mirror/.test(window.name) || window.parent === window) return;
@@ -50,20 +48,29 @@
     } catch (e) { /* storage blocked: nothing to keep apart */ }
   }
 
-  // On a flipped side, the address written on the page is the mirror's own, set down backwards so that the reflection
-  // reads it the right way round: zyxwvutsrqponmlkjihgfedcba.llc (user, 2026-10-19).
+  // Addresses read as they would in the address bar, always (user, 2026-10-19). On a flipped side every address link is
+  // turned back the right way; one that names this site (the business card's back, the top of a page) names the mirror
+  // instead, since that's where the reader is. The three addresses at the foot of each page lead out of the mirror.
   const flipped = window.name === "mirror" || (pair && pair[1] === "glass");
-  const ADDRESS = "abcdefghijklmnopqrstuvwxyz.llc";
-  const REFLECTED = [..."zyxwvutsrqponmlkjihgfedcba.llc"].reverse().join("");
+  const ADDRESS = "abcdefghijklmnopqrstuvwxyz.llc", MIRRORED = "zyxwvutsrqponmlkjihgfedcba.llc";
+  const ADDRESSES = [ADDRESS, MIRRORED, "zyxwvutsrqponmlkjihgfedcbabcdefghijklmnopqrstuvw.xyz"];
   const address = () => {
-    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    for (let n; (n = walk.nextNode());) if (n.nodeValue.includes(ADDRESS)) n.nodeValue = n.nodeValue.split(ADDRESS).join(REFLECTED);
+    document.querySelectorAll("a").forEach(a => {
+      const text = a.textContent.trim();
+      if (!ADDRESSES.includes(text)) return;
+      if (text === ADDRESS && !a.classList.contains("addr")) {
+        a.textContent = MIRRORED;
+        a.href = "https://" + MIRRORED + "/";
+        a.classList.add("addr");
+      }
+      Object.assign(a.style, { display: "inline-block", maxWidth: "100%", transform: "scaleX(-1)" });
+    });
   };
 
   const links = () => {
     if (flipped) address();
-    document.querySelectorAll("a.to-mirror").forEach(a => { a.href = HOME; a.target = "_top"; });
-    document.querySelectorAll("a[href]:not(.to-mirror)").forEach(a => {
+    document.querySelectorAll("a.addr").forEach(a => { a.target = "_top"; });
+    document.querySelectorAll("a[href]:not(.addr)").forEach(a => {
       let u;
       try { u = new URL(a.getAttribute("href"), location.href); } catch (e) { return; }
       if (!/^https?:$/.test(u.protocol)) return;                     // mailto and friends: leave alone
