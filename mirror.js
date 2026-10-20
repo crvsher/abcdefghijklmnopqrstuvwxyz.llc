@@ -33,6 +33,23 @@
     };
   }
 
+  // Each side keeps its own browser storage (badvice and Too Many Bios remember what's been shown), or the side that
+  // loads second would skip what the first just showed. Doing the same things, the two keep the same memories.
+  if (pair) {
+    try {
+      const real = window.localStorage, pre = "mirror-" + pair[1] + ":";
+      const own = {
+        getItem: k => real.getItem(pre + k),
+        setItem: (k, v) => real.setItem(pre + k, v),
+        removeItem: k => real.removeItem(pre + k),
+        clear: () => Object.keys(real).filter(k => k.startsWith(pre)).forEach(k => real.removeItem(k)),
+        key: i => (Object.keys(real).filter(k => k.startsWith(pre))[i] || "").slice(pre.length) || null,
+        get length() { return Object.keys(real).filter(k => k.startsWith(pre)).length; },
+      };
+      Object.defineProperty(window, "localStorage", { configurable: true, get: () => own });
+    } catch (e) { /* storage blocked: nothing to keep apart */ }
+  }
+
   // On a flipped side, the address written on the page is the mirror's own, set down backwards so that the reflection
   // reads it the right way round: zyxwvutsrqponmlkjihgfedcba.llc (user, 2026-10-19).
   const flipped = window.name === "mirror" || (pair && pair[1] === "glass");
