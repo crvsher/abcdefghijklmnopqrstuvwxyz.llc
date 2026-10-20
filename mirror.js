@@ -2,8 +2,8 @@
 // (abcdefghijklmnopqrstuvwxyz.llc, badvice.fyi, listslists.xyz, toomanybios.com). It does nothing unless the page
 // is inside one of the mirrors, which it can tell from the frame's name (a name stays with every page loaded in it):
 //   "mirror"          zyxwvutsrqponmlkjihgfedcba.llc: the site, live, flipped left to right
-//   "mirror-plain:N"  zyxwvutsrqponmlkjihgfedcbabcdefghijklmnopqrstuvw.xyz, left half: the site as it is
-//   "mirror-glass:N"  the same, right half: flipped
+//   "mirror-plain:N"  zyxwvutsrqponmlkjihgfedcbabcdefghijklmnopqrstuvw.xyz, right half: the site as it is
+//   "mirror-glass:N"  the same, left half: flipped
 // In any mirror, links to the user's own sites stay inside the frame; links to sites that refuse to be framed
 // (LinkedIn, Substack, X…) leave it in the same tab; the "mirror" link at the foot of the landing page leads out
 // to the unflipped site.
@@ -145,7 +145,7 @@
   });
 
   // Where this side is: on arrival, and on moves within the page.
-  const here = () => tell({ k: "here", href: location.href });
+  const here = () => tell({ k: "here", href: location.href, v: 4 });
   here();
   window.addEventListener("hashchange", here);
   window.addEventListener("popstate", here);
