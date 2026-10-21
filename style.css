@@ -67,69 +67,69 @@ li::marker { color: var(--dim); }
    up to ink, the one consistent thing every line does */
 .home .aside { display: block; font-size: .55em; line-height: 1.35; margin-top: .3em; color: var(--dim);
   font-family: var(--font); transition: color .25s; }
-.home ol li:hover .aside, .home ol li:focus-within .aside { color: var(--ink); }
+.home ol li:focus-within .aside { color: var(--ink); }
 .home a { text-decoration: none; }
 /* lines with no page yet stay dim until they have one */
 .home ol li:not(:has(a)) { color: var(--dim); }
 .home ol li.to-cut::marker { color: var(--ink); }   /* black like the others; the strike-through stays red (user, 2026-10-15) */
-.home a:hover { color: inherit; }
+
 /* cut copy: already crossed out in red; on hover, focus or press the words disappear and only the red
    line is left where they were. The link stays put and clickable (user, 2026-10-15) */
 .to-cut a .word { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
   background-position: 0 58%; background-size: 100% .08em; transition: color .3s ease; }
-.home .to-cut a:hover .word, .to-cut a:focus-visible .word, .to-cut a:active .word { color: transparent; }
+.to-cut a:focus-visible .word, .to-cut a:active .word { color: transparent; }
 /* three-word horoscope: the Substack's Spectral, in ink; only cut copy keeps red on this page (user, 2026-10-15) */
 /* no underlines at rest anywhere in the list; lines that use one show it on hover (user, 2026-10-15) */
 .to-twh a { font-family: Spectral, Georgia, serif; text-decoration: none; text-decoration-color: var(--ink);
   text-decoration-thickness: .06em; text-underline-offset: .18em; }
 .home ol li.to-twh::marker { color: var(--ink); }
-.home .to-twh a:hover, .to-twh a:focus-visible { text-decoration: underline; }
+.to-twh a:focus-visible { text-decoration: underline; }
 /* ...and hovering spins a zodiac wheel above the end of the line that lands on today's sign
    (landing.js), with a star that twinkles; the link leads to today's horoscope */
 .to-twh a { position: relative; }
 .to-twh a::after { content: attr(data-sign) "\00a0\2726"; position: absolute; left: calc(100% + .2em); top: -.45em;
   font: .62em/1 "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols", Spectral, serif; color: var(--ink);
   white-space: nowrap; opacity: 0; transition: opacity .2s; pointer-events: none; text-decoration: none; }
-.to-twh a:hover::after, .to-twh a:focus-visible::after { opacity: 1; animation: twinkle 1.6s ease-in-out infinite; }
+.to-twh a:focus-visible::after { opacity: 1; animation: twinkle 1.6s ease-in-out infinite; }
 @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
 /* glyphs changing and a star dimming aren't motion, so these run with Reduce Motion on too */
 /* lists lists: a random lists lists typeface each visit (landing.js) */
 .to-lists a { text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em; }
-.home .to-lists a:hover, .to-lists a:focus-visible { text-decoration: underline; }
+.to-lists a:focus-visible { text-decoration: underline; }
 /* ...and opens into three subtasks of itself (landing.js) */
 .to-lists .subs { list-style: "◦  " inside; font-size: .62em; margin: 0; padding-left: .6em;
   display: grid; grid-template-rows: repeat(3, 0fr); opacity: 0; transition: grid-template-rows .3s ease, opacity .25s; }
 .to-lists .subs > li { min-height: 0; overflow: hidden; margin: 0; }
 .to-lists .subs > li::marker { color: var(--dim); }
-.to-lists:hover .subs, .to-lists:focus-within .subs { grid-template-rows: repeat(3, 1fr); opacity: 1; }
-.to-lists:hover .subs > li, .to-lists:focus-within .subs > li { padding-top: .35em; }
+.to-lists:focus-within .subs { grid-template-rows: repeat(3, 1fr); opacity: 1; }
+.to-lists:focus-within .subs > li { padding-top: .35em; }
 @media (prefers-reduced-motion: reduce) { .to-lists .subs { transition: none; } }
 /* linkedin: LinkedIn's blue and sans; hovering turns it into one of LinkedIn's blue pill buttons */
 .to-linkedin a { font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; color: var(--ink);   /* ink until hover (user, 2026-10-15) */
   text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em;
   border-radius: 999px; padding: .04em .5em; margin: -.04em -.5em; transition: background-color .2s, color .2s; }
-.home .to-linkedin a:hover, .to-linkedin a:focus-visible { background: #0a66c2; color: #fff; text-decoration: none; }
+.to-linkedin a:focus-visible { background: #0a66c2; color: #fff; text-decoration: none; }
 /* contact: a plain link; the address is put together only when it's used (landing.js). Hovering starts a
    message: a caret blinks after it, as if the email's being written */
 .to-contact a { text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em; position: relative; }
-.home .to-contact a:hover, .to-contact a:focus-visible { text-decoration: underline; }
+.to-contact a:focus-visible { text-decoration: underline; }
 .to-contact .word { position: relative; }
 .to-contact .word::after { content: ""; position: absolute; left: calc(100% + .12em); top: .12em; bottom: .08em; width: .07em;
   background: currentColor; opacity: 0; }
-.to-contact a:hover .word::after, .to-contact a:focus-visible .word::after { animation: blink 1s steps(1) infinite; opacity: 1; }
+.to-contact a:focus-visible .word::after { animation: blink 1s steps(1) infinite; opacity: 1; }
 /* a caret blinks even with Reduce Motion on, like the system's own (user, 2026-10-15) */
 /* résumé: hovering straightens it into letterhead, small caps tracked out like the top of a résumé,
    and the 👕 after it turns into a 👔 (user, 2026-10-15). The hover belongs to the whole row: the word
    changes width as it changes face, and hovering the word itself made it flicker in and out under the pointer */
 .to-resume .t, .to-resume .word { transition: letter-spacing .3s ease; }
-.to-resume:hover .t, .to-resume:focus-within .t, .to-resume:hover .word, .to-resume:focus-within .word {
+.to-resume:focus-within .t, .to-resume:focus-within .word {
   font-variant: small-caps; letter-spacing: .14em; font-family: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif; }
 .to-resume a { text-decoration: none; }
-.to-resume:hover .word, .to-resume:focus-within .word { text-decoration: underline; text-decoration-thickness: .06em;
+.to-resume:focus-within .word { text-decoration: underline; text-decoration-thickness: .06em;
   text-underline-offset: .18em; }   /* underline on hover too (user, 2026-10-15) */
 .to-resume .shirt { display: inline-block; margin-left: .3em; letter-spacing: 0; font-variant: normal; }
-.to-resume .shirt .on, .to-resume:hover .shirt .off, .to-resume:focus-within .shirt .off { display: none; }
-.to-resume:hover .shirt .on, .to-resume:focus-within .shirt .on { display: inline; }
+.to-resume .shirt .on, .to-resume:focus-within .shirt .off { display: none; }
+.to-resume:focus-within .shirt .on { display: inline; }
 /* about Simon (Too Many Bios): a swatch of a bio's paper and ink, new each visit, and a new one on every
    hover, like tapping for the next bio (landing.js); the old Tumblr's yellow highlight until then */
 .to-bios a .word { background: #f9fc7e; color: #333; padding: .02em .22em; margin: 0 -.22em;
@@ -139,11 +139,11 @@ li::marker { color: var(--dim); }
 /* badvice: a new face each visit (landing.js) */
 /* badvice: hovering underlines the word and only the 🫵 grows (user, 2026-10-15) */
 .to-badvice a { text-decoration: none; }
-.to-badvice a:hover .word, .to-badvice a:focus-visible .word { text-decoration: underline; text-decoration-thickness: .06em;
+.to-badvice a:focus-visible .word { text-decoration: underline; text-decoration-thickness: .06em;
   text-underline-offset: .18em; }
 /* the 🫵: normal size until hover, then it grows and jabs at you (user, 2026-10-15) */
 .to-badvice .point { display: inline-block; line-height: 1; margin-left: .08em; transform-origin: 0 75%; }
-.to-badvice a:hover .point, .to-badvice a:focus-visible .point { animation: jab .5s cubic-bezier(.3, 1.6, .5, 1) 1 forwards; }
+.to-badvice a:focus-visible .point { animation: jab .5s cubic-bezier(.3, 1.6, .5, 1) 1 forwards; }
 @keyframes jab { 0% { transform: scale(1); } 40% { transform: scale(1.75) translateY(-.04em); } 100% { transform: scale(1.5); } }
 @media (prefers-reduced-motion: reduce) { .to-badvice a:hover .point { animation: none; transform: scale(1.5); } }
 /* social: Twitter, 2010. Its link blue and its type (user, 2026-10-15: Twitter's colour, not a random theme);
@@ -151,11 +151,38 @@ li::marker { color: var(--dim); }
 .to-social a { font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Helvetica, Arial, sans-serif;
   color: var(--ink); text-underline-offset: .18em; text-decoration-thickness: .06em; position: relative;
   transition: color .2s; }   /* ink like the others until hover, then Twitter blue (user, 2026-10-15) */
-.home .to-social a:hover, .to-social a:focus-visible { color: var(--tw); text-decoration: underline; }
+.to-social a:focus-visible { color: var(--tw); text-decoration: underline; }
 .to-social a::after { content: attr(data-count) "/140"; font: 12px/1 var(--font); color: var(--dim);
   position: absolute; left: calc(100% + .25em); top: -.35em; white-space: nowrap;   /* above the line: takes no room */
   opacity: 0; transition: opacity .2s; pointer-events: none; }
-.to-social a:hover::after, .to-social a:focus-visible::after { opacity: 1; }
+.to-social a:focus-visible::after { opacity: 1; }
+/* hover looks only where there's a pointer to hover with: on a phone, a hover that shows or swaps something
+   makes Safari spend the first tap on the hover and need a second to follow the link (2026-10-21). Focus
+   and press keep their looks everywhere */
+@media (hover: hover) {
+  .home ol li:hover .aside { color: var(--ink); }
+  .home a:hover { color: inherit; }
+  .home .to-cut a:hover .word { color: transparent; }
+  .home .to-twh a:hover { text-decoration: underline; }
+  .to-twh a:hover::after { opacity: 1; animation: twinkle 1.6s ease-in-out infinite; }
+  .home .to-lists a:hover { text-decoration: underline; }
+  .to-lists:hover .subs { grid-template-rows: repeat(3, 1fr); opacity: 1; }
+  .to-lists:hover .subs > li { padding-top: .35em; }
+  .home .to-linkedin a:hover { background: #0a66c2; color: #fff; text-decoration: none; }
+  .home .to-contact a:hover { text-decoration: underline; }
+  .to-contact a:hover .word::after { animation: blink 1s steps(1) infinite; opacity: 1; }
+  .to-resume:hover .t, .to-resume:hover .word {
+  font-variant: small-caps; letter-spacing: .14em; font-family: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif; }
+  .to-resume:hover .word { text-decoration: underline; text-decoration-thickness: .06em;
+  text-underline-offset: .18em; }
+  .to-resume:hover .shirt .off { display: none; }
+  .to-resume:hover .shirt .on { display: inline; }
+  .to-badvice a:hover .word { text-decoration: underline; text-decoration-thickness: .06em;
+  text-underline-offset: .18em; }
+  .to-badvice a:hover .point { animation: jab .5s cubic-bezier(.3, 1.6, .5, 1) 1 forwards; }
+  .home .to-social a:hover { color: var(--tw); text-decoration: underline; }
+  .to-social a:hover::after { opacity: 1; }
+}
 
 
 /* cut copy */
