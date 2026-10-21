@@ -1,0 +1,316 @@
+:root {
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --bg: #fbfaf7;
+  --ink: #111;
+  --dim: #6b6b6b;
+  --rule: #d9d6cf;
+  --mark: #c8102e;
+  --tw: #0084b4;   /* Twitter's link blue, 2010 */
+  --font: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111;
+    --ink: #ece9e2;
+    --dim: #8d8a84;
+    --rule: #2c2b29;
+    --mark: #ff5a5f;
+    --tw: #1da1f2;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111;
+  --ink: #ece9e2;
+  --dim: #8d8a84;
+  --rule: #2c2b29;
+  --mark: #ff5a5f;
+  --tw: #1da1f2;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.6 var(--font);
+  overflow-wrap: anywhere;
+}
+main, nav { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
+main { padding-top: 3rem; padding-bottom: 5rem; }
+nav { padding-top: 1.25rem; font-size: 13px; }
+nav + main { padding-top: 2rem; }
+footer.landing { max-width: 44rem; margin: 0 auto; padding: 0 16px 2.5rem; font-size: 13px; }
+footer.landing a { color: var(--dim); text-decoration: none; overflow-wrap: anywhere; }
+footer.landing a:hover { color: var(--ink); text-decoration: underline; }
+
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--mark); }
+h1, h2, h3 { font-size: inherit; font-weight: 700; margin: 2.2em 0 .6em; }
+h1:first-child { margin-top: 0; }
+p { margin: 0 0 1em; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2em 0; }
+ul, ol { padding-left: 2.2em; margin: 0 0 1em; }
+li { margin: .25em 0; }
+li::marker { color: var(--dim); }
+.sub { display: block; color: var(--dim); }
+
+/* landing: your list, each line set like the page it leads to */
+.home main { padding-top: 10vh; }
+.home ol { font-size: clamp(20px, 4.2vw, 30px); line-height: 1.3; padding-left: 0; list-style: none; }   /* no numbers (user, 2026-10-19) */
+/* each line's emoji: an inline-block, so its line's underline or strike-through passes it by */
+.home .emo { display: inline-block; margin-left: .3em; text-decoration: none; }
+.home ol li { margin-bottom: .9em; }
+.home ol li::marker { font-size: .6em; color: var(--dim); }
+/* subheads: the note's bracketed asides on their own line under each link. Every hover look draws over
+   or floats above its word, so none of them moves a subhead; hovering a line brings its subhead from grey
+   up to ink, the one consistent thing every line does */
+.home .aside { display: block; font-size: .55em; line-height: 1.35; margin-top: .3em; color: var(--dim);
+  font-family: var(--font); transition: color .25s; }
+.home ol li:focus-within .aside { color: var(--ink); }
+.home a { text-decoration: none; }
+/* lines with no page yet stay dim until they have one */
+.home ol li:not(:has(a)) { color: var(--dim); }
+.home ol li.to-cut::marker { color: var(--ink); }   /* black like the others; the strike-through stays red (user, 2026-10-15) */
+
+/* cut copy: already crossed out in red; on hover, focus or press the words disappear and only the red
+   line is left where they were. The link stays put and clickable (user, 2026-10-15) */
+.to-cut a .word { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
+  background-position: 0 58%; background-size: 100% .08em; transition: color .3s ease; }
+.to-cut a:focus-visible .word, .to-cut a:active .word { color: transparent; }
+/* three-word horoscope: the Substack's Spectral, in ink; only cut copy keeps red on this page (user, 2026-10-15) */
+/* no underlines at rest anywhere in the list; lines that use one show it on hover (user, 2026-10-15) */
+.to-twh a { font-family: Spectral, Georgia, serif; text-decoration: none; text-decoration-color: var(--ink);
+  text-decoration-thickness: .06em; text-underline-offset: .18em; }
+.home ol li.to-twh::marker { color: var(--ink); }
+.to-twh a:focus-visible { text-decoration: underline; }
+/* ...and hovering spins a zodiac wheel above the end of the line that lands on today's sign
+   (landing.js), with a star that twinkles; the link leads to today's horoscope */
+.to-twh a { position: relative; }
+.to-twh a::after { content: attr(data-sign) "\00a0\2726"; position: absolute; left: calc(100% + .2em); top: -.45em;
+  font: .62em/1 "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols", Spectral, serif; color: var(--ink);
+  white-space: nowrap; opacity: 0; transition: opacity .2s; pointer-events: none; text-decoration: none; }
+.to-twh a:focus-visible::after { opacity: 1; animation: twinkle 1.6s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+/* glyphs changing and a star dimming aren't motion, so these run with Reduce Motion on too */
+/* lists lists: a random lists lists typeface each visit (landing.js) */
+.to-lists a { text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em; }
+.to-lists a:focus-visible { text-decoration: underline; }
+/* ...and opens into three subtasks of itself (landing.js) */
+.to-lists .subs { list-style: "◦  " inside; font-size: .62em; margin: 0; padding-left: .6em;
+  display: grid; grid-template-rows: repeat(3, 0fr); opacity: 0; transition: grid-template-rows .3s ease, opacity .25s; }
+.to-lists .subs > li { min-height: 0; overflow: hidden; margin: 0; }
+.to-lists .subs > li::marker { color: var(--dim); }
+.to-lists:focus-within .subs { grid-template-rows: repeat(3, 1fr); opacity: 1; }
+.to-lists:focus-within .subs > li { padding-top: .35em; }
+@media (prefers-reduced-motion: reduce) { .to-lists .subs { transition: none; } }
+/* linkedin: LinkedIn's blue and sans; hovering turns it into one of LinkedIn's blue pill buttons */
+.to-linkedin a { font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; color: var(--ink);   /* ink until hover (user, 2026-10-15) */
+  text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em;
+  border-radius: 999px; padding: .04em .5em; margin: -.04em -.5em; transition: background-color .2s, color .2s; }
+.to-linkedin a:focus-visible { background: #0a66c2; color: #fff; text-decoration: none; }
+/* contact: a plain link; the address is put together only when it's used (landing.js). Hovering starts a
+   message: a caret blinks after it, as if the email's being written */
+.to-contact a { text-decoration: none; text-decoration-thickness: .06em; text-underline-offset: .18em; position: relative; }
+.to-contact a:focus-visible { text-decoration: underline; }
+.to-contact .word { position: relative; }
+.to-contact .word::after { content: ""; position: absolute; left: calc(100% + .12em); top: .12em; bottom: .08em; width: .07em;
+  background: currentColor; opacity: 0; }
+.to-contact a:focus-visible .word::after { animation: blink 1s steps(1) infinite; opacity: 1; }
+/* a caret blinks even with Reduce Motion on, like the system's own (user, 2026-10-15) */
+/* résumé: hovering straightens it into letterhead, small caps tracked out like the top of a résumé,
+   and the 👕 after it turns into a 👔 (user, 2026-10-15). The hover belongs to the whole row: the word
+   changes width as it changes face, and hovering the word itself made it flicker in and out under the pointer */
+.to-resume .t, .to-resume .word { transition: letter-spacing .3s ease; }
+.to-resume:focus-within .t, .to-resume:focus-within .word {
+  font-variant: small-caps; letter-spacing: .14em; font-family: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif; }
+.to-resume a { text-decoration: none; }
+.to-resume:focus-within .word { text-decoration: underline; text-decoration-thickness: .06em;
+  text-underline-offset: .18em; }   /* underline on hover too (user, 2026-10-15) */
+.to-resume .shirt { display: inline-block; margin-left: .3em; letter-spacing: 0; font-variant: normal; }
+.to-resume .shirt .on, .to-resume:focus-within .shirt .off { display: none; }
+.to-resume:focus-within .shirt .on { display: inline; }
+/* about Simon (Too Many Bios): a swatch of a bio's paper and ink, new each visit, and a new one on every
+   hover, like tapping for the next bio (landing.js); the old Tumblr's yellow highlight until then */
+.to-bios a .word { background: #f9fc7e; color: #333; padding: .02em .22em; margin: 0 -.22em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-color .2s, color .2s; }
+@media (prefers-reduced-motion: reduce) { .to-linkedin a, .to-bios a .word, .to-resume .t { transition: none; }
+}
+/* badvice: a new face each visit (landing.js) */
+/* badvice: hovering underlines the word and only the 🫵 grows (user, 2026-10-15) */
+.to-badvice a { text-decoration: none; }
+.to-badvice a:focus-visible .word { text-decoration: underline; text-decoration-thickness: .06em;
+  text-underline-offset: .18em; }
+/* the 🫵: normal size until hover, then it grows and jabs at you (user, 2026-10-15) */
+.to-badvice .point { display: inline-block; line-height: 1; margin-left: .08em; transform-origin: 0 75%; }
+.to-badvice a:focus-visible .point { animation: jab .5s cubic-bezier(.3, 1.6, .5, 1) 1 forwards; }
+@keyframes jab { 0% { transform: scale(1); } 40% { transform: scale(1.75) translateY(-.04em); } 100% { transform: scale(1.5); } }
+@media (prefers-reduced-motion: reduce) { .to-badvice a:hover .point { animation: none; transform: scale(1.5); } }
+/* social: Twitter, 2010. Its link blue and its type (user, 2026-10-15: Twitter's colour, not a random theme);
+   hovering underlines it like old Twitter and counts it out of 140, like a tweet */
+.to-social a { font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Helvetica, Arial, sans-serif;
+  color: var(--ink); text-underline-offset: .18em; text-decoration-thickness: .06em; position: relative;
+  transition: color .2s; }   /* ink like the others until hover, then Twitter blue (user, 2026-10-15) */
+.to-social a:focus-visible { color: var(--tw); text-decoration: underline; }
+.to-social a::after { content: attr(data-count) "/140"; font: 12px/1 var(--font); color: var(--dim);
+  position: absolute; left: calc(100% + .25em); top: -.35em; white-space: nowrap;   /* above the line: takes no room */
+  opacity: 0; transition: opacity .2s; pointer-events: none; }
+.to-social a:focus-visible::after { opacity: 1; }
+/* hover looks only where there's a pointer to hover with: on a phone, a hover that shows or swaps something
+   makes Safari spend the first tap on the hover and need a second to follow the link (2026-10-21). Focus
+   and press keep their looks everywhere */
+@media (hover: hover) {
+  .home ol li:hover .aside { color: var(--ink); }
+  .home a:hover { color: inherit; }
+  .home .to-cut a:hover .word { color: transparent; }
+  .home .to-twh a:hover { text-decoration: underline; }
+  .to-twh a:hover::after { opacity: 1; animation: twinkle 1.6s ease-in-out infinite; }
+  .home .to-lists a:hover { text-decoration: underline; }
+  .to-lists:hover .subs { grid-template-rows: repeat(3, 1fr); opacity: 1; }
+  .to-lists:hover .subs > li { padding-top: .35em; }
+  .home .to-linkedin a:hover { background: #0a66c2; color: #fff; text-decoration: none; }
+  .home .to-contact a:hover { text-decoration: underline; }
+  .to-contact a:hover .word::after { animation: blink 1s steps(1) infinite; opacity: 1; }
+  .to-resume:hover .t, .to-resume:hover .word {
+  font-variant: small-caps; letter-spacing: .14em; font-family: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif; }
+  .to-resume:hover .word { text-decoration: underline; text-decoration-thickness: .06em;
+  text-underline-offset: .18em; }
+  .to-resume:hover .shirt .off { display: none; }
+  .to-resume:hover .shirt .on { display: inline; }
+  .to-badvice a:hover .word { text-decoration: underline; text-decoration-thickness: .06em;
+  text-underline-offset: .18em; }
+  .to-badvice a:hover .point { animation: jab .5s cubic-bezier(.3, 1.6, .5, 1) 1 forwards; }
+  .home .to-social a:hover { color: var(--tw); text-decoration: underline; }
+  .to-social a:hover::after { opacity: 1; }
+}
+
+
+/* cut copy */
+.cut .intro em { font-style: italic; }
+/* the header is small and quiet so the line is front and center (user, 2026-10-14) */
+/* the heading, crossed out in the lines' red, a little heavier than a line's cut */
+.cut .cut-title { font-size: clamp(26px, 5vw, 44px); font-weight: 400; line-height: 1.1; margin: 0 0 .45em; }
+.cut .cut-title span { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
+  background-position: 0 56%; background-size: 100% .09em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.cut .intro { font-size: 12px; line-height: 1.5; color: var(--dim); margin: 0 0 1em; }
+.cut .intro p { margin: 0; }
+.cut .intro p + p { margin-top: .6em; }
+.lines li { margin: .55em 0; }
+.cut footer { margin-top: 3rem; color: var(--dim); font-size: 13px; }
+.alt { margin-top: 2em; }
+.cut :focus-visible { outline: 2px solid var(--mark); outline-offset: 3px; }
+
+/* view switch: one at a time (default), list, wall */
+.views { display: flex; gap: .5em; flex-wrap: wrap; margin: 0 0 1.5em; padding: 0; max-width: none; }
+.views button { font: inherit; font-size: 13px; color: var(--dim); background: none; cursor: pointer; border: 1px solid var(--rule); border-radius: 999px; padding: .35em 1em; }
+.views button:hover { color: var(--ink); border-color: var(--ink); }
+.views button[aria-pressed="true"] { color: var(--bg); background: var(--ink); border-color: var(--ink); }
+
+/* one at a time */
+.stage { min-height: 72vh; display: flex; flex-direction: column; justify-content: center; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.stage .line { margin: 0; font-size: clamp(20px, 3.4vw, 34px); line-height: 1.35; min-height: 4em; }
+.stage .t { background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat; background-position: 0 58%; background-size: 0% .09em; transition: background-size .45s ease-in; }
+.stage .line.cut .t { background-size: 100% .09em; }
+.stage .caret { display: inline-block; width: .55ch; height: 1.05em; vertical-align: -.15em; background: var(--ink); margin-left: .05em; animation: blink 1s steps(1) infinite; }
+.stage .meta { margin-top: 2em; font-size: 12px; color: var(--dim); display: flex; justify-content: space-between; }
+.stage .num { color: var(--dim); text-decoration: none; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .stage .t { transition: none; } .stage .caret { animation: none; } }
+
+/* list and wall: the one-at-a-time cross-out, drawn while a line is hovered or pressed, and kept
+   when it's tapped or clicked (tap again to take it back) */
+.pile-list, .wall { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+.pile-list .t, .wall .l {
+  background-image: linear-gradient(var(--mark), var(--mark)); background-repeat: no-repeat;
+  background-position: 0 58%; background-size: 0% .09em; transition: background-size .45s ease-in;
+  -webkit-box-decoration-break: slice; box-decoration-break: slice;
+}
+.pile-list .l.lit .t, .pile-list .l.held .t { background-size: 100% .09em; }
+/* wall, the other way round (user, 2026-10-14): every line starts crossed out; hovering or
+   pressing takes the cross-out off to read it; lines already seen (or tapped) keep a thin grey one */
+.wall .l { background-size: 100% .09em; }
+.wall .l.held { background-image: linear-gradient(var(--dim), var(--dim)); background-size: 100% .045em; }
+.wall .l.lit, .wall .l.held.lit { background-size: 0% .09em; }
+@media (hover: hover) {
+  .pile-list .l:hover .t { background-size: 100% .09em; }
+  .wall .l:hover, .wall .l.held:hover { background-size: 0% .09em; }
+}
+@media (prefers-reduced-motion: reduce) { .pile-list .t, .wall .l { transition: none; } }
+.pile-list { padding-left: 4.5ch; margin: 0; }
+.pile-list .l { margin: 0; padding: .3em .2em; border-bottom: 1px dotted var(--rule); cursor: default; }
+.pile-list .l::marker { font-size: 12px; color: var(--dim); }
+.wall { margin: 0; line-height: 1.75; }
+.wall .l { cursor: default; }
+.wall .sep { color: var(--mark); padding: 0 .45em; }
+
+/* cv */
+.cv h1 { font-size: 1.25em; margin-bottom: 0; }
+.cv h2 { color: var(--dim); text-transform: lowercase; letter-spacing: .04em; }
+.cv ul { padding-left: 1.4em; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* the first business card, a mad lib, as the landing header (user's design, 2026-10-15): 3.5 × 2 in, type scaled to the card */
+.card { container-type: inline-size; box-sizing: border-box; width: min(100%, 30rem); aspect-ratio: 3.5 / 2;
+  margin: 0 0 3.2rem; padding: 0; position: relative; perspective: 1400px; cursor: pointer; }
+/* two sides that turn over in 3D when the card is clicked (landing.js); the back holds the address */
+.card .flip { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3, .7, .2, 1); }
+.card.flipped .flip { transform: rotateY(180deg); }
+.card .side { position: absolute; inset: 0; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  background: #fff; color: #111; border: 1px solid #d9d6cf; border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px -12px rgba(0,0,0,.18);
+  font-family: "Times New Roman", Times, "Liberation Serif", serif; }
+.card .back { transform: rotateY(180deg); pointer-events: none; }
+.card.flipped .back { pointer-events: auto; } .card.flipped .front { pointer-events: none; }
+.card .back .face { text-align: center; }
+.card .back .lic { margin-bottom: 7cqw; }
+.card .front .l2 { margin-bottom: 0; }
+.card .turn:focus-visible { position: absolute; width: auto; height: auto; clip: auto; margin: 0; right: 8px; bottom: -2rem;
+  font: 12px var(--font); }
+@media (prefers-reduced-motion: reduce) { .card .flip { transition-duration: .01s; } }
+.card .face { padding: 0 7cqw; }   /* padding inside, so cqw is always the whole card */
+.card p { margin: 0; line-height: 1; font-size: 5.3cqw; white-space: nowrap; }
+.card .l1 { margin-bottom: 11.5cqw; }
+.card .l2 { margin-bottom: 12cqw; }   /* (front: 0, now that the address is on the back) */
+.card .blank { position: relative; display: inline-block; min-width: 2.1em; border-bottom: .3cqw solid #111;
+  text-align: center; margin: 0 .5cqw; vertical-align: baseline; }
+.card .blank.filled { min-width: 4.3em; }
+.card .blank.wide { min-width: 3.8em; }
+.card .cue { position: absolute; left: 50%; top: calc(100% + .26em); transform: translateX(-50%);
+  font: 700 .49em/1 "Courier Prime", "Courier New", monospace; letter-spacing: .12em; text-transform: uppercase; color: #111; }
+/* the handwriting: a quick ballpoint scrawl (Nothing You Could Do), leaning a little uphill; landing.js
+   gives every letter its own tilt, lift and size so no two strokes match (user, 2026-10-15: "much messier") */
+/* the ink: black for everything a visitor writes; only the user's own handwriting (the photo) is Bic Cristal
+   blue (user, 2026-10-15) */
+.card { --bic: #111; }
+.card .pen { font: 1.3em/1 "Nothing You Could Do", "Bradley Hand", cursive; color: var(--bic); position: relative; top: -.14em;
+  display: inline-block; transform: rotate(-3deg); transform-origin: 0 100%; white-space: nowrap; }
+.card .pen .ch { display: inline-block; }
+/* the user's own handwriting, photographed and lifted off the paper (build.py handwriting()) */
+.card .hand { height: 2.25em; width: auto; vertical-align: -.72em; margin: 0 .05em; position: relative; top: -.12em; }
+.card input { font: 1.2em/1 "Nothing You Could Do", "Bradley Hand", cursive; color: var(--bic); background: none; border: 0;
+  transform: rotate(-2.5deg);
+  width: 100%; min-width: 0; padding: 0 0 .4cqw; text-align: center; outline: none; caret-color: var(--bic); }
+.card .blank:focus-within { border-bottom-color: #111; background: rgba(0,0,0,.035); }
+.card .blank input { width: 1.6em; } .card .blank.wide input { width: 2.9em; }
+.card .url { font: 700 3.3cqw/1 "Courier Prime", "Courier New", monospace; letter-spacing: .1em; text-align: center; }
+.card .url a { color: inherit; text-decoration: none; }
+.card .url a:hover { text-decoration: underline; text-underline-offset: .5cqw; }
+
+/* the mirror link: small and quiet at the foot of the landing page (user, 2026-10-19) */
+
+
+/* the landing's only footer: "mirror", reading straight here and reversed in the mirror (user, 2026-10-19) */
+footer.landing.mirror { margin-top: 3.5rem; font-size: 12px; }
+
+/* laptops and wider: the card sits beside the list instead of above it, same size, still first in reading
+   order, so all nine lines fit on one screen without scrolling (2026-10-21; at 1280×900 contact used to start
+   below the fold). Phones and narrow windows keep the card on top. The mirror link lines up under the list */
+@media (min-width: 1100px) {
+  .home main { max-width: 68rem; display: grid; grid-template-columns: 30rem minmax(0, 1fr); column-gap: 4.5rem;
+    align-items: start; padding-bottom: 2rem; }
+  .home .card { margin: 0; position: sticky; top: 10vh; }
+  .home ol { margin: 0; }
+  .home ol li { margin-bottom: .7em; }
+  footer.landing.mirror { max-width: 68rem; margin-top: 1rem; }
+}
