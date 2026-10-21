@@ -14,7 +14,7 @@
 <meta name="description" content="Senior copywriter with nearly 20 years of experience across brand, marketing, and product writing for companies including Twitter, Airbnb, Nike, Facebook, NBC, and OpenTable.">
 <meta property="og:description" content="Senior copywriter with nearly 20 years of experience across brand, marketing, and product writing for companies including Twitter, Airbnb, Nike, Facebook, NBC, and OpenTable.">
 <script src="../mirror.js?v=e56e18dc"></script>
-<link rel="stylesheet" href="../style.css?v=fcd2a9c1">
+<link rel="stylesheet" href="../style.css?v=29d5fe85">
 </head>
 <body class="cv">
 <nav><a href="/">abcdefghijklmnopqrstuvwxyz.llc</a></nav>
@@ -22,7 +22,7 @@
 <p class="pdf"><a href="simon-goetz-resume.pdf" download="simon goetz résumé.pdf">download as PDF</a></p>
 <h1>Simon Goetz</h1>
 <p><strong>Senior Copywriter</strong><br>
-Oakland, California · <a href="https://abcdefghijklmnopqrstuvwxyz.llc">abcdefghijklmnopqrstuvwxyz.llc</a> · <a href="https://www.linkedin.com/in/simongoetz/">linkedin.com/in/simongoetz</a></p>
+Oakland, California · <a href="#contact" class="mail" data-u="bm9taXM=" data-d="Y2xsLnp5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2Jh" rel="nofollow">email</a> · <a href="https://abcdefghijklmnopqrstuvwxyz.llc">abcdefghijklmnopqrstuvwxyz.llc</a> · <a href="https://www.linkedin.com/in/simongoetz/">linkedin.com/in/simongoetz</a></p>
 <hr>
 <h2>Profile</h2>
 <p>Senior copywriter with nearly 20 years of experience across brand, marketing, and product writing for companies including Twitter, Airbnb, Nike, Facebook, NBC, and OpenTable. Experienced in setting voice and tone, developing content strategy, and writing campaigns across out-of-home, digital, social, email, video, and in-product channels. Equally comfortable defining a brand's voice, leading a campaign, or getting the details right in a single line of interface copy.</p>
@@ -104,6 +104,14 @@ BFA, Dramatic Writing — 2001</p>
 <hr>
 <h2>Selected Writing</h2>
 <p><a href="https://abcdefghijklmnopqrstuvwxyz.llc">abcdefghijklmnopqrstuvwxyz.llc</a></p>
+<script>
+document.querySelectorAll("a.mail").forEach(a => {
+  const dec = s => atob(s).split("").reverse().join("");
+  const arm = () => { a.href = "mailto:" + dec(a.dataset.u) + "\u0040" + dec(a.dataset.d); };
+  ["pointerenter", "focus", "touchstart"].forEach(ev => a.addEventListener(ev, arm, { once: true, passive: true }));
+  a.addEventListener("click", () => { if (!a.href.startsWith("mailto:")) arm(); });
+});
+</script>
 </main>
 <footer class="landing"><a class="addr" href="https://abcdefghijklmnopqrstuvwxyz.llc">abcdefghijklmnopqrstuvwxyz.llc</a></footer>
 </body>
